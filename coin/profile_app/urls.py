@@ -9,6 +9,5 @@ urlpatterns = [
     path('token/refresh/' , Refresh.as_view()),
     path('savingplan/' , SavingPlanView.as_view()),
     path('savingplan/<int:pk>' , SavingPlanView.as_view()),
-    path('')
 
 ]
