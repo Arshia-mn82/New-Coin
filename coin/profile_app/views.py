@@ -48,9 +48,14 @@ class TransactionDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]
+    def perform_create(self, serializer):
+    # Get the profile of the current user
+    profile = self.request.user.profile
     
-    
-    
+    # Check if the user has sufficient savings
+    amount = serializer.validated_data['amount']
+    if profile.total_saving < amount:
+        raise ValueError("Insufficient savings to complete the transaction.")
     def get_queryset(self):
         return self.queryset.filter(profile=self.request.user.profile)
     
