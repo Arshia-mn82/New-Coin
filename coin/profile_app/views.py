@@ -37,6 +37,10 @@ class TransactionView(ListCreateAPIView):
     serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]
     
+    def perform_create(self, serializer):
+
+        return serializer.save(profile=self.request.user.profile)
+    
     def get_queryset(self):
         return self.queryset.filter(profile=self.request.user.profile)
     
@@ -44,6 +48,8 @@ class TransactionDetailView(RetrieveUpdateDestroyAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     permission_classes = [IsAuthenticated]
+    
+    
     
     def get_queryset(self):
         return self.queryset.filter(profile=self.request.user.profile)
